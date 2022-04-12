@@ -3,4 +3,4 @@ project(AlgorithmHomework)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(matrixChainMultiplication matrixChainMultiplication.cpp)
+add_executable(matrixChainMultiplication "Matrix Chain Mul/matrixChainMultiplication.cpp")

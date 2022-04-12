@@ -33,7 +33,7 @@ int main() {
         cin >> p[i];
     }
 
-    vector<vector<int>> getTimes = calcMinMultiplicationTimes(p);
+    //vector<vector<int>> getTimes = calcMinMultiplicationTimes(p);
 
 
 }

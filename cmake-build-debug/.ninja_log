@@ -1,3 +1,5 @@
 # ninja log v5
 0	363	6713787186065569	CMakeFiles/AlgorithmHomework.dir/main.cpp.obj	79b56cb863bc1a9d
 365	523	6713787187623025	AlgorithmHomework.exe	6958d2901a7c1f4
+1	788	6714891354683986	CMakeFiles/matrixChainMultiplication.dir/Matrix_Chain_Mul/matrixChainMultiplication.cpp.obj	4f952165b94697c8
+790	1067	6714891357445696	matrixChainMultiplication.exe	c1e3b0dc83a10764

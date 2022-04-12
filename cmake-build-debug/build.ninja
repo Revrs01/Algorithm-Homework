@@ -49,11 +49,11 @@ cmake_ninja_workdir = C$:/Users/asdf5/CLionProjects/AlgorithmHomework/cmake-buil
 
 build cmake_object_order_depends_target_matrixChainMultiplication: phony || CMakeFiles/matrixChainMultiplication.dir
 
-build CMakeFiles/matrixChainMultiplication.dir/matrixChainMultiplication.cpp.obj: CXX_COMPILER__matrixChainMultiplication_Debug C$:/Users/asdf5/CLionProjects/AlgorithmHomework/matrixChainMultiplication.cpp || cmake_object_order_depends_target_matrixChainMultiplication
-  DEP_FILE = CMakeFiles\matrixChainMultiplication.dir\matrixChainMultiplication.cpp.obj.d
+build CMakeFiles/matrixChainMultiplication.dir/Matrix_Chain_Mul/matrixChainMultiplication.cpp.obj: CXX_COMPILER__matrixChainMultiplication_Debug C$:/Users/asdf5/CLionProjects/AlgorithmHomework/Matrix$ Chain$ Mul/matrixChainMultiplication.cpp || cmake_object_order_depends_target_matrixChainMultiplication
+  DEP_FILE = CMakeFiles\matrixChainMultiplication.dir\Matrix_Chain_Mul\matrixChainMultiplication.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\matrixChainMultiplication.dir
-  OBJECT_FILE_DIR = CMakeFiles\matrixChainMultiplication.dir
+  OBJECT_FILE_DIR = CMakeFiles\matrixChainMultiplication.dir\Matrix_Chain_Mul
 
 
 # =============================================================================
@@ -63,7 +63,7 @@ build CMakeFiles/matrixChainMultiplication.dir/matrixChainMultiplication.cpp.obj
 #############################################
 # Link the executable matrixChainMultiplication.exe
 
-build matrixChainMultiplication.exe: CXX_EXECUTABLE_LINKER__matrixChainMultiplication_Debug CMakeFiles/matrixChainMultiplication.dir/matrixChainMultiplication.cpp.obj
+build matrixChainMultiplication.exe: CXX_EXECUTABLE_LINKER__matrixChainMultiplication_Debug CMakeFiles/matrixChainMultiplication.dir/Matrix_Chain_Mul/matrixChainMultiplication.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\matrixChainMultiplication.dir
