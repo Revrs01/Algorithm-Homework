@@ -4,18 +4,18 @@
 
 using namespace std;
 int matrixAmount;
+string chainOrder;
 
 void putParentheses(int i, int j, int n, int *brackets, char &mNumber) {
-    //vector<char> multiplyOrder(matrixAmount + 2 * (matrixAmount - 1), 0);
     if (i == j) {
-        cout << mNumber++;
+        chainOrder += mNumber++;
         return;
     }
-    cout << '(';
+    chainOrder += '(';
 
     putParentheses(i, *((brackets + j * n) + i), n, brackets, mNumber);
     putParentheses(*((brackets + j * n) + i) + 1, j, n, brackets, mNumber);
-    cout << ')';
+    chainOrder += ')';
 }
 
 void matrixChainMul(vector<int> &p) {
@@ -43,9 +43,9 @@ void matrixChainMul(vector<int> &p) {
 
     char mNumber = '0';
     int size = p.size();
-    cout << "with parentheses : ";
-    putParentheses(1, size - 1, size, (int *) matrix, mNumber);
 
+    putParentheses(1, size - 1, size, (int *) matrix, mNumber);
+    cout << "with parentheses : " << chainOrder;
     cout << endl;
     cout << "Min Cost = " << matrix[1][p.size() - 1];
 }
@@ -59,7 +59,6 @@ int main() {
         cin >> p[i];
     }
 
-    //vector<vector<int>> getTimes = calcMinMultiplicationTimes(p);
     matrixChainMul(p);
 
 }
