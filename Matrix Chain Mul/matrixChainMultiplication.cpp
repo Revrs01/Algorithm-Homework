@@ -4,7 +4,19 @@
 
 using namespace std;
 int matrixAmount;
-vector<vector<int>> cutLoc;
+
+void putParentheses(int i, int j, int n, int *brackets, char &mNumber) {
+    //vector<char> multiplyOrder(matrixAmount + 2 * (matrixAmount - 1), 0);
+    if (i == j) {
+        cout << mNumber++;
+        return;
+    }
+    cout << '(';
+
+    putParentheses(i, *((brackets + j * n) + i), n, brackets, mNumber);
+    putParentheses(*((brackets + j * n) + i) + 1, j, n, brackets, mNumber);
+    cout << ')';
+}
 
 void matrixChainMul(vector<int> &p) {
     int matrix[p.size()][p.size()];
@@ -26,16 +38,16 @@ void matrixChainMul(vector<int> &p) {
                     matrix[j][i] = k;
                 }
             }
-
         }
     }
 
-    cout << "Min Cost = " << matrix[1][p.size() - 1];
-}
+    char mNumber = '0';
+    int size = p.size();
+    cout << "with parentheses : ";
+    putParentheses(1, size - 1, size, (int *) matrix, mNumber);
 
-void calcCutLocation(int i, int j, int k) {
-    cutLoc.resize(matrixAmount, vector<int>(matrixAmount, 0));
-    cutLoc[i][j] = k;
+    cout << endl;
+    cout << "Min Cost = " << matrix[1][p.size() - 1];
 }
 
 int main() {
