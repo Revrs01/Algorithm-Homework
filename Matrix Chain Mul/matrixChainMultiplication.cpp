@@ -58,8 +58,6 @@ int main() {
     for (int i = 0; i < matrixAmount; i++) {
         cin >> p[i];
     }
-
-
-    matrixChainMul(p);
+    //matrixChainMul(p);
 
 }
