@@ -1,11 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include <limits.h>
+#include <climits>
 
 using namespace std;
-int matrixAmount;
-vector<int> chainOrder;
 
 void createSpaceForVector(vector<vector<int>> &container, int i, int j) {
     container.resize(i);
@@ -34,22 +32,16 @@ void popCalc(stack<vector<vector<int>>> &stack) {
     m1 = stack.top();
     stack.pop();
     vector<vector<int>> temp(m1.size(), vector<int>(m2[0].size(), 0));
-    stack.pop();
     mulMatrix(m1, m2, temp, m1.size(), m1[0].size(), m2[0].size());
     stack.push(temp);
 }
 
 void putParentheses(int i, int j, int n, vector<vector<int>> brackets, int &mNumber, stack<vector<vector<int>>> &s,
                     vector<vector<vector<int>>> &container) {
-    vector<vector<int>> LBracket(1, vector<int>(1));
-    vector<vector<int>> RBracket(1, vector<int>(1));
-    LBracket[0][0] = '(';
-    RBracket[0][0] = ')';
     if (i == j) {
-        s.push(container[(mNumber++) - 43]);
+        s.push(container[mNumber++]);
         return;
     }
-    s.push(LBracket);
 
     putParentheses(i, brackets[j][i], n, brackets, mNumber, s, container);
     putParentheses(brackets[j][i] + 1, j, n, brackets, mNumber, s, container);
@@ -80,7 +72,7 @@ void matrixChainMul(vector<int> &p, vector<vector<int>> &matrix) {
 vector<vector<int>> order(vector<vector<int>> &matrix, vector<int> &p, vector<vector<vector<int>>> &container) {
     stack<vector<vector<int>>> stack;
     int size = p.size();
-    int mNumber = 43;   // starts after ')', which ASCII code is 42
+    int mNumber = 0;   // starts after ')', which ASCII code is 42
 
     putParentheses(1, size - 1, size, matrix, mNumber, stack, container);
     return stack.top();
@@ -89,6 +81,7 @@ vector<vector<int>> order(vector<vector<int>> &matrix, vector<int> &p, vector<ve
 int main() {
     int sign = 0;
     cin >> sign;
+    int matrixAmount;
 
     cin >> matrixAmount;
     vector<vector<vector<int>>> inputMatrix(matrixAmount, vector<vector<int>>(1, vector<int>(1, 0)));
@@ -96,20 +89,16 @@ int main() {
     for (int i = 0; i <= matrixAmount; i++) {
         cin >> p[i];
     }
-    chainOrder.resize(matrixAmount + 2 * (matrixAmount - 1), 0);
-    vector<vector<int>> minCostMatrix(p.size(), vector<int>(p.size(), 0));
-    // if there exist n matrix, you'll need n-1 pairs of parentheses to cover all matrix
 
+    vector<vector<int>> minCostMatrix(p.size(), vector<int>(p.size(), 0));
     for (int i = 0; i < matrixAmount; ++i) {
         createSpaceForVector(inputMatrix[i], p[i], p[i + 1]);
         for (int j = 0; j < p[i]; ++j) {
             for (int k = 0; k < p[i + 1]; ++k) {
-
                 cin >> inputMatrix[i][j][k];
             }
         }
     }
-
     matrixChainMul(p, minCostMatrix);
 
     vector<vector<int>> ans = order(minCostMatrix, p, inputMatrix);
