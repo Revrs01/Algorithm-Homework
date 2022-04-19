@@ -1,16 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include <climits>
 
 using namespace std;
-
-void createSpaceForVector(vector<vector<int>> &container, int i, int j) {
-    container.resize(i);
-    for (int k = 0; k < i; ++k) {
-        container[k].resize(j, 0);
-    }
-}
 
 void mulMatrix(vector<vector<int>> &matrixA, vector<vector<int>> &matrixB,
                vector<vector<int>> &matrixC, int rowA, int columnA, int columnB) {
@@ -36,45 +28,47 @@ void popCalc(stack<vector<vector<int>>> &stack) {
     stack.push(temp);
 }
 
-void putParentheses(int i, int j, int n, vector<vector<int>> brackets, int &mNumber, stack<vector<vector<int>>> &s,
-                    vector<vector<vector<int>>> &container) {
+void order(int i, int j, int n, vector<vector<int>> brackets, int &mNumber, stack<vector<vector<int>>> &s,
+           vector<vector<vector<int>>> &container) {
     if (i == j) {
         s.push(container[mNumber++]);
         return;
     }
 
-    putParentheses(i, brackets[j][i], n, brackets, mNumber, s, container);
-    putParentheses(brackets[j][i] + 1, j, n, brackets, mNumber, s, container);
+    order(i, brackets[j][i], n, brackets, mNumber, s, container);
+    order(brackets[j][i] + 1, j, n, brackets, mNumber, s, container);
     popCalc(s);
 }
 
 void matrixChainMul(vector<int> &p, vector<vector<int>> &matrix) {
-
+    int j, minimalK;
     for (int i = 0; i < p.size(); ++i) {
         matrix[i][i] = 0;       // set diagonal cost to 0
     }
 
-    for (int chainLength = 2; chainLength < p.size(); ++chainLength) {
-        for (int i = 1; i < p.size() - chainLength + 1; ++i) {
-            int j = i + chainLength - 1;
-            matrix[i][j] = INT_MAX;
-            for (int k = i; k < j; ++k) {
-                int mpy = matrix[i][k] + matrix[k + 1][j] + p[i - 1] * p[j] * p[k];
-                if (mpy < matrix[i][j]) {
-                    matrix[i][j] = mpy;
-                    matrix[j][i] = k;
+    for (int diagonal = 1; diagonal < p.size(); ++diagonal) {
+        for (int i = 1; i < p.size() - diagonal; ++i) {
+            j = i + diagonal;
+            minimalK = i;
+            for (int k = i + 1; k < j; ++k) {
+                if ((long) matrix[i][k] + (long) matrix[k + 1][j] +
+                    (long) p[i - 1] * (long) p[j] * (long) p[k] <
+                    (long) matrix[i][minimalK] + (long) matrix[minimalK + 1][j] + (long) p[i - 1] * (long) p[j] * (long) p[minimalK]) {
+                    minimalK = k;
                 }
             }
+            matrix[i][j] = matrix[i][minimalK] + matrix[minimalK + 1][j] + p[i - 1] * p[j] * p[minimalK];
+            matrix[j][i] = minimalK;
         }
     }
 }
 
-vector<vector<int>> order(vector<vector<int>> &matrix, vector<int> &p, vector<vector<vector<int>>> &container) {
+vector<vector<int>> dpMethodStart(vector<vector<int>> &matrix, vector<int> &p, vector<vector<vector<int>>> &container) {
     stack<vector<vector<int>>> stack;
     int size = p.size();
-    int mNumber = 0;   // starts after ')', which ASCII code is 42
+    int mNumber = 0;
 
-    putParentheses(1, size - 1, size, matrix, mNumber, stack, container);
+    order(1, size - 1, size, matrix, mNumber, stack, container);
     return stack.top();
 }
 
@@ -92,8 +86,9 @@ int main() {
 
     vector<vector<int>> minCostMatrix(p.size(), vector<int>(p.size(), 0));
     for (int i = 0; i < matrixAmount; ++i) {
-        createSpaceForVector(inputMatrix[i], p[i], p[i + 1]);
+        inputMatrix[i].resize(p[i]);
         for (int j = 0; j < p[i]; ++j) {
+            inputMatrix[i][j].resize(p[i + 1]);
             for (int k = 0; k < p[i + 1]; ++k) {
                 cin >> inputMatrix[i][j][k];
             }
@@ -101,7 +96,7 @@ int main() {
     }
     matrixChainMul(p, minCostMatrix);
 
-    vector<vector<int>> ans = order(minCostMatrix, p, inputMatrix);
+    vector<vector<int>> ans = dpMethodStart(minCostMatrix, p, inputMatrix);
 
     if (sign == 0) {
         // show answer
