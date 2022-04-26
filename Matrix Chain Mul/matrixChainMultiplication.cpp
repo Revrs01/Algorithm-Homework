@@ -77,10 +77,10 @@ matrixMulUsingChainOrder(vector<vector<int>> &matrix, vector<int> &p, vector<vec
 
 int main() {
     int sign = 0;
-    cin >> sign;
+    scanf("%d", &sign);
     int matrixAmount;
 
-    cin >> matrixAmount;
+    scanf("%d", &matrixAmount);
     vector<vector<vector<int>>> inputMatrix(matrixAmount, vector<vector<int>>(1, vector<int>(1, 0)));
     vector<int> p(matrixAmount + 1, 0);
     for (int i = 0; i <= matrixAmount; i++) {
