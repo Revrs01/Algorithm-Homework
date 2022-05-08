@@ -3,4 +3,5 @@ project(AlgorithmHomework)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(matrixChainMultiplication "Matrix Chain Mul/matrixChainMultiplication.cpp")
+add_executable(UsingVector "Matrix Chain Mul/UsingVector.cpp")
+add_executable(UsingPointer "Matrix Chain Mul/UsingPointer.cpp")
