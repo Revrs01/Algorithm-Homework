@@ -1,4 +1,3 @@
-#include <iostream>
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -7,7 +6,7 @@ struct Item {
 private:
     int value, weight;
 public:
-    Item() {};
+    Item() = default;  // null constructor, for initialize
 
     Item(int weight, int value) {
         this->weight = weight;
@@ -28,17 +27,17 @@ bool compare(Item r1, Item r2) {
 }
 
 double fractionalKnapsack(int capacity, Item array[], int n) {
-    sort(array, array + n, compare);
+    sort(array, array + n, compare);    // sort the array
 
     double result = 0;
 
     for (int i = 0; i < n; ++i) {
-        if (array[i].getWeight() <= capacity) {
+        if (array[i].getWeight() <= capacity) {     // if capacity is enough to put in the next item, then put in
             capacity -= array[i].getWeight();
             result += array[i].getValue();
         } else {
             result += array[i].getValue() * ((double) capacity / (double) array[i].getWeight());
-            break;
+            break;  // there's no space for the next item, function ends
         }
     }
     return result;
@@ -46,20 +45,20 @@ double fractionalKnapsack(int capacity, Item array[], int n) {
 
 int main() {
 
-    int howManyThings;
-    scanf("%d", &howManyThings);
+    int howManyThings,backpackCapacity;
 
-    int backpackCapacity;
+    scanf("%d", &howManyThings);
     scanf("%d", &backpackCapacity);
 
     Item array[howManyThings];
     int weight, value;
+
     for (int i = 0; i < howManyThings; ++i) {
         scanf("%d%d", &weight, &value);
         array[i] = Item(weight, value);
     }
 
-    printf("%.6f", fractionalKnapsack(backpackCapacity,array,howManyThings));
+    printf("%.6f", fractionalKnapsack(backpackCapacity, array, howManyThings));
 
     return 0;
 }
