@@ -5,3 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(UsingVector "Matrix Chain Mul/UsingVector.cpp")
 add_executable(UsingPointer "Matrix Chain Mul/UsingPointer.cpp")
+add_executable(source "Fractional Knapsack Problem/source.cpp")
