@@ -30,7 +30,7 @@ bool compare(Item r1, Item r2) {
 double fractionalKnapsack(int capacity, Item array[], int n) {
     sort(array, array + n, compare);
 
-    double result;
+    double result = 0;
 
     for (int i = 0; i < n; ++i) {
         if (array[i].getWeight() <= capacity) {
