@@ -4,17 +4,17 @@ using namespace std;
 
 struct Item {
 private:
-    int value, weight;
+    int profit, weight;
 public:
     Item() = default;  // null constructor, for initialize
 
     Item(int weight, int value) {
         this->weight = weight;
-        this->value = value;
+        this->profit = value;
     }
 
     int getValue() const {
-        return value;
+        return profit;
     }
 
     int getWeight() const {
