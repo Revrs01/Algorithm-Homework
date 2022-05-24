@@ -31,8 +31,8 @@ void order(int i, int j, int n, int **&multiOrder, int &mNumber, stack<node> &s,
         return;
     }
 
-    order(i, multiOrder[i][j], n, multiOrder, mNumber, s, matrix, p);
-    order(multiOrder[i][j] + 1, j, n, multiOrder, mNumber, s, matrix, p);
+    order(i, multiOrder[j][i], n, multiOrder, mNumber, s, matrix, p);
+    order(multiOrder[j][i] + 1, j, n, multiOrder, mNumber, s, matrix, p);
 
     node m2 = s.top();
     s.pop();
@@ -51,7 +51,7 @@ void order(int i, int j, int n, int **&multiOrder, int &mNumber, stack<node> &s,
     s.push(result);
 }
 
-void mulMatrix(int *&p, int **&cost, int **&multiOrder, int pSize) {
+void chainMultiplication(int *&p, int **&cost, int pSize) {
     int j, minK;
     for (int i = 0; i < pSize; ++i) {
         cost[i][i] = 0;       // set diagonal to 0
@@ -62,15 +62,15 @@ void mulMatrix(int *&p, int **&cost, int **&multiOrder, int pSize) {
             j = i + diagonal;
             minK = i;
             for (int k = i + 1; k < j; ++k) {
-                if ((long) cost[i][k] + (long) cost[k + 1][j] +
-                    (long) p[i - 1] * (long) p[j] * (long) p[k] <
-                    (long) cost[i][minK] + (long) cost[minK + 1][j] +
-                    (long) p[i - 1] * (long) p[j] * (long) p[minK]) {
+                long a = (long) cost[i][k] + (long) cost[k + 1][j] + (long) p[i - 1] * (long) p[j] * (long) p[k];
+                long b = (long) cost[i][minK] + (long) cost[minK + 1][j] +
+                         (long) p[i - 1] * (long) p[j] * (long) p[minK];
+                if (a < b) {
                     minK = k;
                 }
             }
             cost[i][j] = cost[i][minK] + cost[minK + 1][j] + p[i - 1] * p[j] * p[minK];
-            multiOrder[i][j] = minK;
+            cost[j][i] = minK;
         }
     }
 }
@@ -88,12 +88,10 @@ int main() {
     }
     int pSize = matrixAmount + 1;
 
-    int **multiOrder = (int **) malloc((matrixAmount + 1) * sizeof(int *));
-    int **cost = (int **) malloc((matrixAmount + 1) * sizeof(int *));
+    int **cost = (int **) malloc((pSize) * sizeof(int *));
 
-    for (int i = 0; i < matrixAmount + 1; ++i) {
-        multiOrder[i] = (int *) malloc((matrixAmount + 1) * sizeof(int));
-        cost[i] = (int *) malloc((matrixAmount + 1) * sizeof(int));
+    for (int i = 0; i < pSize; ++i) {
+        cost[i] = (int *) malloc((pSize) * sizeof(int));
     }
 
     int ***matrix = (int ***) malloc(matrixAmount * sizeof(int **));
@@ -108,10 +106,10 @@ int main() {
     }
 
     stack<node> stack;
-    mulMatrix(p, cost, multiOrder, pSize);
+    chainMultiplication(p, cost, pSize);
 
     int count = 0;
-    order(1, pSize - 1, pSize, multiOrder, count, stack, matrix, p);
+    order(1, pSize - 1, pSize, cost, count, stack, matrix, p);
     node ans = stack.top();
 
     cout << ans.row << ' ' << ans.col << ' ' << endl << endl;
