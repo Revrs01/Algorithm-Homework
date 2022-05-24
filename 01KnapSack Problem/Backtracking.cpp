@@ -32,16 +32,19 @@ public:
 
 Item currentCapacity(int weight, Item item[], int n) {
     int row, maxWeight;
-    int map[n + 1][weight + 1];
-    for (row = 0; row < n + 1; ++row) {
-        for (maxWeight = 0; maxWeight < weight + 1; ++maxWeight) {
+    int map[n + 1][weight + 1];     // create DP table
+    for (row = 0; row < n + 1; ++row) {     // travel through every row, from top -> bottom
+        for (maxWeight = 0; maxWeight < weight + 1; ++maxWeight) {  // travel through every column, from left -> right
             if (row == 0 || maxWeight == 0) {
-                map[row][maxWeight] = 0;
-            } else if (item[row - 1].getWeight() <= maxWeight) {
+                map[row][maxWeight] = 0;    // Initialize
+            } else if (item[row - 1].getWeight() <= maxWeight) {    // create the value column by column
+                // choose a bigger one, (new item input + ) or (previous one)
                 map[row][maxWeight] = max(
                         item[row - 1].getProfit() + map[row - 1][maxWeight - item[row - 1].getWeight()],
                         map[row - 1][maxWeight]);
+
             } else {
+                // if bigger than current maxWeight, then copy from previous row
                 map[row][maxWeight] = map[row - 1][maxWeight];
             }
         }
@@ -49,16 +52,19 @@ Item currentCapacity(int weight, Item item[], int n) {
 
     int totalProfit = map[n][weight];
     Item result = {};
-    result.setProfit(totalProfit);
+    result.setProfit(totalProfit);  // store the totalProfit result
     maxWeight = weight;
 
     for (row = n; row > 0; --row) {
         if (totalProfit) {
             if (totalProfit == map[row - 1][maxWeight]) continue;
+            // compare whether the value is same in the previous row
             else {
                 //printf("%d %d\n",item[row-1].getWeight(),item[row-1].getProfit());
+                // take out things from knapsack
                 totalProfit -= item[row - 1].getProfit();
                 maxWeight -= item[row - 1].getWeight();
+                // subtract maxWeight means go left x blocks, which x is the object's weight I take out previously
             }
         }
     }
